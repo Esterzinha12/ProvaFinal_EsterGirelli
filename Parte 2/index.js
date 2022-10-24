@@ -10,5 +10,5 @@ app.use('/usuarios', usuarios.router);
 app.listen(port, () => console.log("Porta", port));
 
 app.get("/",  (req, res) => {
-    res.send("Hello World");
+    res.send("Rodando");
 });

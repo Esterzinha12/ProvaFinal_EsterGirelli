@@ -2,43 +2,43 @@ const express = require("express");
 const router = express.Router();
 
 
-const listaUsuarios=[
+const listaUsuarios = [
     {
-       id: 1,
-       user: 'ester',
-       senha: '123' 
+        id: 1,
+        usuario: 'ester',
+        senha: '123'
     }
 ]
 
-router.get('/', (req, res) =>{
-    res.send(selecionarUsuario());
+router.get('/', (req, res) => {
+    res.send(selecionarUsuarios());
 })
 
-function selecionarUsuario(){
+function selecionarUsuarios() {
     return listaUsuarios;
 }
 
-router.get('/login', (req, res)=>{
+router.get('/login', (req, res) => {
     const usuario = req.body;
     res.send(selecionarLogin(usuario))
 })
 
 function selecionarLogin(usuario) {
-    for(let login of listaUsuarios){
-        if(login.user == usuario.user && login.senha == usuario.senha){
-            let autorizado=true;
-            return autorizado;
-        }else{
-            console.log("Não possui login!!")
-            autorizado =false;
+    let autorizado = false;
+    for (let login of listaUsuarios) {
+        if (login.usuario == usuario.usuario && login.senha == usuario.senha) {
+            autorizado = true;
+            console.log("Possui login!");
             return autorizado;
         }
     }
+    console.log("Não possui login!");
+    return autorizado;
 }
 
 router.post('/', (req, res) => {
     const usuarios = req.body
-    if (usuarios.user != "" && usuarios.senha != "") {
+    if (usuarios.usuario != "" && usuarios.senha != "") {
         res.json(adicionarUsuario(usuarios))
     } else {
         return "Campos não inseridos!";
@@ -57,14 +57,13 @@ router.delete('/:id', (req, res) => {
 })
 
 function deletarUsuario(id) {
-        const index = listaUsuarios.findIndex(p => p.id == id)
-        listaUsuarios.splice(index, 1)
-        return listaUsuarios
+    const index = listaUsuarios.findIndex(p => p.id == id)
+    listaUsuarios.splice(index, 1)
+    return listaUsuarios
 }
 
 module.exports = {
     router,
     selecionarLogin,
-    selecionarUsuario,
     deletarUsuario
 }
